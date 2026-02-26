@@ -2,10 +2,13 @@
 
 import { ComponentCustomProperties } from 'vue'
 import { Store } from 'vuex'
+import type { Router, RouteLocationNormalizedLoaded } from 'vue-router'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $store: Store<any>;
     $snackbar: any;
+    $router: Router;
+    $route: RouteLocationNormalizedLoaded;
   }
 }

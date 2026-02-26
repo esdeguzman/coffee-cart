@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
@@ -9,7 +9,11 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "lib": ["esnext", "dom"]
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "types": ["vite/client", "node"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
   "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
