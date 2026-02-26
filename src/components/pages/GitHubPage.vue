@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <p>Star our repository <a href="https://github.com/jecfish/coffee-cart">jecfish/coffee-cart</a>. Report in the repository if you found any issues.</p>
-    <p>Here are the extra actions you can perform apart from the <a href="https://goo.gle/devtools-recorder">usual add to cart flows.</a></p>
+    <p>Here are the extra actions you can perform apart from the usual add to cart flows.</p>
     <ul>
       <li>Right click on coffee icon to open an add to cart dialog.</li>
       <li>[Desktop only] Hover over Pay button will show a quick cart preview, click to add or remove items.</li>
