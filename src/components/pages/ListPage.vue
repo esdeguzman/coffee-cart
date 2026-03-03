@@ -4,7 +4,11 @@
   <Promotion v-if="showPromo" @close="closedPromo()" />
   <div>
     <ul>
-      <li v-for="coffee in list" :key="coffee.name">
+      <li
+        v-for="coffee in list"
+        :key="coffee.name"
+        :id="isSelectedCoffee(coffee.name) ? coffeeId(coffee.name) : undefined"
+      >
         <h4 @dblclick="translate(coffee.name)">
           {{ coffee.isTranslated? translation[coffee.name] : coffee.name }}
           <br />
@@ -59,6 +63,7 @@ export default defineComponent({
       timeoutId: null,
       isBigger: false,
       selectedCoffee: '',
+      selectedCoffeeNames: [] as string[],
       translation: {
         'Espresso': '特浓咖啡',
         'Espresso Macchiato': '浓缩玛奇朵',
@@ -70,6 +75,14 @@ export default defineComponent({
         'Espresso Con Panna': '浓缩康宝蓝',
         'Cafe Breve': '半拿铁',
       } as any
+    }
+  },
+  watch: {
+    list(newVal: any[]) {
+      if (!this.selectedCoffeeNames.length && Array.isArray(newVal) && newVal.length) {
+        const count = Math.min(3, newVal.length);
+        this.selectedCoffeeNames = newVal.slice(0, count).map(x => x?.name).filter(Boolean);
+      }
     }
   },
   created() {
@@ -99,6 +112,12 @@ export default defineComponent({
   },
   methods: {
     currency,
+    coffeeId(name: string) {
+      return 'coffee-' + String(name).trim().toLowerCase().replace(/\s+/g, '-');
+    },
+    isSelectedCoffee(name: string) {
+      return this.selectedCoffeeNames.includes(name);
+    },
     // ...mapMutations("cart", ["addToCart"]),
     addToCart(name: string) {
       slow();
