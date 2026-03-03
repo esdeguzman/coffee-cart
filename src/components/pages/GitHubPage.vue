@@ -9,12 +9,13 @@
       <li>The add to cart process will be slowing down (intentionally) when the cart has more than 7 items.</li>
    
     </ul>
-    <p>Updated for Cypress training purposes.</p>
+  <promo-banner message="Updated for Cypress training purposes by O&B."></promo-banner>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import '../../web-components/promo-banner';
 
 export default defineComponent({
   name: "GitHubPage",
