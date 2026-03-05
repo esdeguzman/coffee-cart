@@ -31,6 +31,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+const authStorageKey = 'coffee-cart-auth';
+const authOrigin = 'http://localhost:4170';
+
 export default defineComponent({
   name: 'PaymentDetails',
   props: ['isShow'],
@@ -46,12 +49,21 @@ export default defineComponent({
     isShow(newVal, _) {
       if (!newVal) return;
 
+      this.loadUser();
+
       this.$nextTick(() => {
         (this.$refs.name as HTMLInputElement).focus();
       }); 
     }
   },
   methods: {
+    loadUser() {
+      const auth = JSON.parse(localStorage.getItem(authStorageKey) || '{}');
+      if (auth.user) {
+        this.name = auth.user.name;
+        this.email = auth.user.email;
+      }
+    },
     closeModal() {
       this.$emit('close');
     },
@@ -64,6 +76,21 @@ export default defineComponent({
       if (this.name && this.email) {
         // blocking
         await this.slow();
+
+        const auth = JSON.parse(localStorage.getItem(authStorageKey) || '{}');
+        const username = auth.user ? auth.user.username : 'user';
+
+        await fetch(`${authOrigin}/update-user`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            username,
+            name: this.name,
+            email: this.email,
+          }).toString(),
+        });
 
         this.resetForm();
         this.closeModal();

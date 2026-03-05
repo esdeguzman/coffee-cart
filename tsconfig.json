@@ -15,5 +15,8 @@
     "types": ["vite/client", "node"],
     "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.d.ts", "src/**/*.tsx", "src/components/pages/AdPage.vue",
+    "src/components/pages/CartPage.vue",
+    "src/components/pages/GitHubPage.vue",
+    "src/components/pages/ListPage.vue"]
 }
