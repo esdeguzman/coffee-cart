@@ -34,6 +34,7 @@ export default defineComponent({
   data() {
     return {
       user: { username: '', name: '', email: '' },
+      token: ''
     };
   },
   created() {
@@ -44,16 +45,21 @@ export default defineComponent({
       const auth = JSON.parse(localStorage.getItem(authStorageKey) || '{}');
       if (auth.user) {
         this.user = auth.user;
+        this.token = auth.token;
       }
     },
     async save() {
       try {
-        const response = await fetch(`${authOrigin}/update-user`, {
+        const response = await fetch(`${authOrigin}/update-user/${this.user.username}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `Bearer ${this.token}`
           },
-          body: new URLSearchParams(this.user).toString(),
+          body: new URLSearchParams({ 
+            name: this.user.name, 
+            email: this.user.email
+          }).toString(),
         });
 
         if (!response.ok) {

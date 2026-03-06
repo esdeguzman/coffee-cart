@@ -18,6 +18,7 @@ const defaultDb = {
       email: '',
     },
   ],
+  tokens: []
 }
 
 const ensureDb = () => {
@@ -95,7 +96,7 @@ const send = (res, status, body, headers = {}) => {
     'Content-Type': 'text/html; charset=utf-8',
     'Access-Control-Allow-Origin': appOrigin,
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     ...headers,
   })
   res.end(body)
@@ -152,6 +153,9 @@ const server = http.createServer((req, res) => {
       }
 
       const token = crypto.randomUUID()
+      db.tokens.push({ username, token })
+      writeDb(db)
+
       const redirectUrl = withAuthParams(returnTo, token, match)
       res.writeHead(302, { Location: redirectUrl })
       return res.end()
@@ -159,7 +163,18 @@ const server = http.createServer((req, res) => {
     return
   }
 
-  if (req.method === 'POST' && url.pathname === '/update-user') {
+  const updateUserMatch = req.method === 'POST' && url.pathname.startsWith('/update-user/')
+  if (updateUserMatch) {
+    const username = url.pathname.split('/').pop()
+
+    const token = req.headers['authorization']?.split(' ')?.[1]
+    const db = readDb()
+    const storedToken = db.tokens.find((t) => t.token === token)
+
+    if (!storedToken || storedToken.username !== username) {
+      return send(res, 401, 'Unauthorized')
+    }
+
     let body = ''
     req.on('data', (chunk) => {
       body += chunk.toString()
@@ -167,23 +182,32 @@ const server = http.createServer((req, res) => {
     })
     req.on('end', () => {
       const data = querystring.parse(body)
-      const username = String(data.username || '')
       const name = String(data.name || '')
       const email = String(data.email || '')
 
-      const db = readDb()
       const userIndex = db.users.findIndex((u) => u.username === username)
 
       if (userIndex === -1) {
         return send(res, 404, 'User not found')
       }
 
-      db.users[userIndex] = { ...db.users[userIndex], name, email }
+      const user = db.users[userIndex]
+      user.name = name
+      user.email = email
       writeDb(db)
 
-      send(res, 200, JSON.stringify(db.users[userIndex]), {
-        'Content-Type': 'application/json',
-      })
+      const userToReturn = {
+        username: user.username,
+        name: user.name,
+        email: user.email,
+      }
+
+      // Explicit wait of 10 seconds to highlight Cypress handling of slow responses
+      setTimeout(() => {
+        send(res, 200, JSON.stringify(userToReturn), {
+          'Content-Type': 'application/json',
+        })
+      }, 10000)
     })
     return
   }
