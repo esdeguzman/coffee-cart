@@ -75,9 +75,9 @@ const renderLoginPage = ({ error = '', returnTo = appOrigin } = {}) => `
       ${error ? `<div class="error">${escapeHtml(error)}</div>` : ''}
       <form method="POST" action="/login">
         <label>Username</label>
-        <input name="username" autocomplete="username" required />
+        <input name="username" autocomplete="username" />
         <label>Password</label>
-        <input name="password" type="password" autocomplete="current-password" required />
+        <input name="password" type="password" autocomplete="current-password" />
         <input type="hidden" name="returnTo" value="${escapeHtml(returnTo)}" />
         <button type="submit">Sign in</button>
       </form>
