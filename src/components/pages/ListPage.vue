@@ -1,5 +1,8 @@
 <template>
-  <Banner v-if="renderAd" />
+    <Coffee404 v-if="error && !isLoading && !is500Error" />
+    <Coffee500 v-else-if="is500Error" :error="true" />
+    <div v-else>
+      <Banner v-if="renderAd" />
   <!-- <iframe ref="iframe" v-if="showAd" src="/ad" height="1" width="1" scrolling="no" frameborder="0"></iframe> -->
   <Promotion v-if="showPromo" @close="closedPromo()" />
   <div>
@@ -22,7 +25,8 @@
         </div>
       </li>
     </ul>
-    <Pay :isDisablePreview="cartCount == 0" />
+    </div>
+    <Pay v-if="!error" :isDisablePreview="cartCount == 0" />
     <!-- <Ad v-if="showAd" /> -->
   </div>
 
@@ -45,21 +49,27 @@ import Ad from '../parts/Ad.vue';
 import Banner from '../parts/Banner.vue';
 import Promotion from '../parts/Promotion.vue';
 import CoffeeCardSkeleton from '../parts/CoffeeCardSkeleton.vue';
+import Coffee404 from '../parts/Coffee404.vue';
+import Coffee500 from '../parts/Coffee500.vue';
 
 export default defineComponent({
   name: "ListPage",
-  components: { Cup, Pay, Ad, Banner, Promotion, CoffeeCardSkeleton },
+  components: { Cup, Pay, Ad, Banner, Promotion, CoffeeCardSkeleton, Coffee404, Coffee500 },
   computed: {
     ...mapState({
       list: (state: any) => state.coffees.list.filter((x:any) => !x.discounted),
+      error: (state: any) => state.coffees.error,
+      isLoading: (state: any) => state.coffees.isLoading,
     }),
     ...mapGetters({
       cartCount: "cart/cartCount"
     }),
+    is500Error() {
+      return this.error && this.error.status === 500;
+    },
   },
   data() {
     return {
-      isLoading: false,
       showAd: this.$route.query.ad,
       renderAd: false,
       showPromo: false,
@@ -108,10 +118,7 @@ export default defineComponent({
       slow();
     }
 
-    this.isLoading = true;
-    this.$store.dispatch("coffees/getCoffeeList").finally(() => {
-      this.isLoading = false;
-    });
+    this.$store.dispatch("coffees/getCoffeeList");
   },
   unmounted() {
     window.removeEventListener('message', this.resizeFrame);

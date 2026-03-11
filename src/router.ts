@@ -4,6 +4,8 @@ import CartPage from './components/pages/CartPage.vue'
 import AdPage from './components/pages/AdPage.vue'
 import GitHubPage from './components/pages/GitHubPage.vue'
 import AccountPage from './components/pages/AccountPage.vue'
+import Coffee404 from './components/parts/Coffee404.vue'
+import Coffee500 from './components/parts/Coffee500.vue'
 const authStorageKey = 'coffee-cart-auth'
 const authOrigin = 'http://localhost:4170'
 
@@ -72,6 +74,19 @@ const router = createRouter({
       path: '/account',
       component: AccountPage,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/error/500',
+      component: Coffee500,
+      props: { error: true }
+    },
+    {
+      path: '/error/404',
+      component: Coffee404
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: Coffee404
     },
   ]
 })
