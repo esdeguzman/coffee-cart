@@ -3,8 +3,8 @@
     {
       "username": "user",
       "password": "pw",
-      "name": "",
-      "email": ""
+      "name": "user",
+      "email": "user@mail.to"
     }
   ],
   "tokens": [
@@ -215,6 +215,178 @@
     {
       "username": "user",
       "token": "bace3c2e-0f64-4948-81dd-ed7f44ef5006"
+    },
+    {
+      "username": "user",
+      "token": "dd05935d-d18d-4c4e-b1ce-7642e93ceba2"
+    },
+    {
+      "username": "user",
+      "token": "788ec0bf-4955-4a9d-a0c2-efac1614e41f"
+    },
+    {
+      "username": "user",
+      "token": "d3e8dc81-14a1-4909-bbcf-74ceeb2df089"
+    },
+    {
+      "username": "user",
+      "token": "bc41b032-0b17-4d2a-88b6-4120b917b76f"
+    },
+    {
+      "username": "user",
+      "token": "c22ea847-ef59-40d5-848e-4de97eaaebb8"
+    },
+    {
+      "username": "user",
+      "token": "904b35e6-e1b6-4ba3-874f-6171498fbe33"
+    },
+    {
+      "username": "user",
+      "token": "18916337-8930-43fa-a43f-48c952a0fea3"
+    },
+    {
+      "username": "user",
+      "token": "7f5e6187-8e7d-414f-b2be-5809f96e3b48"
+    },
+    {
+      "username": "user",
+      "token": "4881205e-8ee0-4431-9f08-9d2f0fc5b891"
+    },
+    {
+      "username": "user",
+      "token": "3fbf9aec-4ef5-40a6-b11f-7a77055249fa"
+    },
+    {
+      "username": "user",
+      "token": "baef1283-5722-4037-ab5a-e85378757766"
+    },
+    {
+      "username": "user",
+      "token": "42392f6c-6d49-4ab6-bdda-18fc72dbf8b3"
+    },
+    {
+      "username": "user",
+      "token": "6112c2f6-fa09-4fa3-b31f-5ab253b159b3"
+    },
+    {
+      "username": "user",
+      "token": "ef319c1f-b1ec-4350-a87b-fb60a53a4d42"
+    },
+    {
+      "username": "user",
+      "token": "387a627c-40cb-419d-816e-04e59da69b95"
+    },
+    {
+      "username": "user",
+      "token": "130a6f34-6bea-4803-9977-0446d6de0a15"
+    },
+    {
+      "username": "user",
+      "token": "0decc046-f495-4fbe-9c49-01b91c1f21fe"
+    },
+    {
+      "username": "user",
+      "token": "06fb48d6-eee4-4a92-917b-61e046cec963"
+    },
+    {
+      "username": "user",
+      "token": "3fd95209-2e6a-454d-bdf5-09ec8b547a67"
+    },
+    {
+      "username": "user",
+      "token": "a51ada61-6091-4319-8b34-3405aeba5204"
+    },
+    {
+      "username": "user",
+      "token": "af36794d-bc64-4bd5-971c-d44274a87f84"
+    },
+    {
+      "username": "user",
+      "token": "7eaaac6c-321d-4b8a-8364-c724c866fa77"
+    },
+    {
+      "username": "user",
+      "token": "eb07d4ea-4f54-4b2d-becc-6b070f917a20"
+    },
+    {
+      "username": "user",
+      "token": "01a580ba-673e-4d2e-ac7e-922d17ef251d"
+    },
+    {
+      "username": "user",
+      "token": "66756f30-3f26-415e-82f0-1a133ca2ba84"
+    },
+    {
+      "username": "user",
+      "token": "5045e559-5c06-4c68-84e3-8ee7c0dec221"
+    },
+    {
+      "username": "user",
+      "token": "4c238b5c-da58-4cdd-abed-59f52e66f502"
+    },
+    {
+      "username": "user",
+      "token": "ad5706cf-1616-4092-a858-22200d37be1d"
+    },
+    {
+      "username": "user",
+      "token": "67b9717c-7422-4ce6-958d-a832cf6dd73d"
+    },
+    {
+      "username": "user",
+      "token": "79aec9ed-8f95-4086-8d67-1ea0d3e7dd6e"
+    },
+    {
+      "username": "user",
+      "token": "d385fa21-546a-42a1-9c84-6b1132fc3790"
+    },
+    {
+      "username": "user",
+      "token": "7b393116-59a7-4882-8fb5-b72af6f861b0"
+    },
+    {
+      "username": "user",
+      "token": "3524d017-19e1-44fc-982e-191abcd3bcfb"
+    },
+    {
+      "username": "user",
+      "token": "b1455154-3d47-48c3-a537-651a0c3b0c65"
+    },
+    {
+      "username": "user",
+      "token": "59f16115-7927-4c8c-8a7c-66f153eab727"
+    },
+    {
+      "username": "user",
+      "token": "8773f852-7c48-464b-95c5-f12b207531b3"
+    },
+    {
+      "username": "user",
+      "token": "6039faca-3234-4086-a24b-b41f114d340f"
+    },
+    {
+      "username": "user",
+      "token": "a85c11ae-94df-4baa-9203-1e900bdc0321"
+    },
+    {
+      "username": "user",
+      "token": "5fbbf376-cf0e-4adc-af29-69d15f648574"
+    },
+    {
+      "username": "user",
+      "token": "ec0329dd-adcc-45cb-933f-f1f7f315f36c"
+    },
+    {
+      "username": "user",
+      "token": "4aca3fed-d120-45fe-8080-f7f830fc6d70"
+    },
+    {
+      "username": "user",
+      "token": "10184e74-0000-40a6-8d35-21d8516a909b"
+    },
+    {
+      "username": "user",
+      "token": "c8d7c2cd-bd8f-4f0a-8b03-06bd752fda39"
     }
   ],
   "coffees": [

@@ -17,7 +17,10 @@
         <label for="email">Email</label>
         <input type="email" id="email" v-model="user.email" />
       </div>
-      <button type="submit">Save Updates</button>
+      <button type="submit" :disabled="isLoading">
+        <span v-if="isLoading" class="spinner"></span>
+        <span v-else>Save Updates</span>
+      </button>
     </form>
   </div>
 </template>
@@ -34,7 +37,8 @@ export default defineComponent({
   data() {
     return {
       user: { username: '', name: '', email: '' },
-      token: ''
+      token: '',
+      isLoading: false
     };
   },
   created() {
@@ -44,11 +48,12 @@ export default defineComponent({
     loadUser() {
       const auth = JSON.parse(localStorage.getItem(authStorageKey) || '{}');
       if (auth.user) {
-        this.user = auth.user;
+        this.user = { ...auth.user };
         this.token = auth.token;
       }
     },
     async save() {
+      this.isLoading = true;
       try {
         const response = await fetch(`${authOrigin}/update-user/${this.user.username}`, {
           method: 'POST',
@@ -71,10 +76,12 @@ export default defineComponent({
         auth.user = updatedUser;
         localStorage.setItem(authStorageKey, JSON.stringify(auth));
 
-        alert('Account details saved!');
+        (this as any).$snackbar.showMessage({ content: 'Account details saved!', color: 'success' });
       } catch (error) {
         console.error(error);
-        alert('Failed to save account details. Please try again.');
+        (this as any).$snackbar.showMessage({ content: 'Failed to save account details. Please try again.', color: 'error' });
+      } finally {
+        this.isLoading = false;
       }
     },
     logout() {
@@ -132,6 +139,23 @@ button {
 button:hover {
   border-color: goldenrod;
   color: goldenrod;
+}
+button:disabled {
+  border-color: #ccc;
+  color: #ccc;
+  cursor: not-allowed;
+}
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(0,0,0,.3);
+  border-radius: 50%;
+  border-top-color: #000;
+  animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 .logout-button {
   background: transparent;
