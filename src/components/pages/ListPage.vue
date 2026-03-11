@@ -3,7 +3,10 @@
   <!-- <iframe ref="iframe" v-if="showAd" src="/ad" height="1" width="1" scrolling="no" frameborder="0"></iframe> -->
   <Promotion v-if="showPromo" @close="closedPromo()" />
   <div>
-    <ul>
+    <ul v-if="isLoading">
+      <CoffeeCardSkeleton v-for="n in 9" :key="n" />
+    </ul>
+    <ul v-else>
       <li
         v-for="coffee in list"
         :key="coffee.name"
@@ -41,10 +44,11 @@ import Pay from '../parts/Pay.vue';
 import Ad from '../parts/Ad.vue';
 import Banner from '../parts/Banner.vue';
 import Promotion from '../parts/Promotion.vue';
+import CoffeeCardSkeleton from '../parts/CoffeeCardSkeleton.vue';
 
 export default defineComponent({
   name: "ListPage",
-  components: { Cup, Pay, Ad, Banner, Promotion },
+  components: { Cup, Pay, Ad, Banner, Promotion, CoffeeCardSkeleton },
   computed: {
     ...mapState({
       list: (state: any) => state.coffees.list.filter((x:any) => !x.discounted),
@@ -55,6 +59,7 @@ export default defineComponent({
   },
   data() {
     return {
+      isLoading: false,
       showAd: this.$route.query.ad,
       renderAd: false,
       showPromo: false,
@@ -86,7 +91,10 @@ export default defineComponent({
     }
   },
   created() {
-    if (this.showAd) {
+    const waitTime = this.$route.query.wait;
+    if (waitTime) {
+      this.$store.commit('coffees/setWaitTime', Number(waitTime));
+    } else if (this.showAd) {
       window.addEventListener('message', this.resizeFrame);
 
       this.$store.commit('coffees/setWaitTime', this.waitTime * .5);
@@ -100,7 +108,10 @@ export default defineComponent({
       slow();
     }
 
-    this.$store.dispatch("coffees/getCoffeeList");
+    this.isLoading = true;
+    this.$store.dispatch("coffees/getCoffeeList").finally(() => {
+      this.isLoading = false;
+    });
   },
   unmounted() {
     window.removeEventListener('message', this.resizeFrame);

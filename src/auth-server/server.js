@@ -18,7 +18,97 @@ const defaultDb = {
       email: '',
     },
   ],
-  tokens: []
+  tokens: [],
+  coffees: [
+    {
+      name: 'Espresso',
+      price: 10,
+      recipe: [
+        { name: 'espresso', quantity: 30 }
+      ]
+    },
+    {
+      name: 'Espresso Macchiato',
+      price: 12,
+      recipe: [
+        { name: 'espresso', quantity: 30 },
+        { name: 'milk foam', quantity: 15 }
+      ]
+    },
+    {
+      name: 'Cappuccino',
+      price: 19,
+      recipe: [
+        { name: 'espresso', quantity: 30 },
+        { name: 'steamed milk', quantity: 20 },
+        { name: 'milk foam', quantity: 50 }
+      ]
+    },
+    {
+      name: 'Mocha',
+      price: 8,
+      recipe: [
+        { name: 'espresso', quantity: 30 },
+        { name: 'chocolate syrup', quantity: 20 },
+        { name: 'steamed milk', quantity: 25 },
+        { name: 'whipped cream', quantity: 25 }
+      ]
+    },
+    {
+      name: 'Flat White',
+      price: 18,
+      recipe: [
+        { name: 'espresso', quantity: 30 },
+        { name: 'steamed milk', quantity: 50 }
+      ]
+    },
+    {
+      name: 'Americano',
+      price: 7,
+      recipe: [
+        { name: 'espresso', quantity: 30 },
+        { name: 'water', quantity: 70 }
+      ]
+    },
+    {
+      name: 'Cafe Latte',
+      price: 16,
+      recipe: [
+        { name: 'espresso', quantity: 30 },
+        { name: 'steamed milk', quantity: 50 },
+        { name: 'milk foam', quantity: 20 }
+      ]
+    },
+    {
+      name: 'Espresso Con Panna',
+      price: 14,
+      recipe: [
+        { name: 'espresso', quantity: 30 },
+        { name: 'whipped cream', quantity: 15 }
+      ]
+    },
+    {
+      name: 'Cafe Breve',
+      price: 15,
+      recipe: [
+        { name: 'espresso', quantity: 25 },
+        { name: 'steamed milk', quantity: 30 },
+        { name: 'steamed cream', quantity: 30 },
+        { name: 'milk foam', quantity: 15 }
+      ]
+    },
+    {
+      name: '(Discounted) Mocha',
+      price: 4,
+      discounted: true,
+      recipe: [
+        { name: 'espresso', quantity: 30 },
+        { name: 'chocolate syrup', quantity: 20 },
+        { name: 'steamed milk', quantity: 25 },
+        { name: 'whipped cream', quantity: 25 }
+      ]
+    }
+  ]
 }
 
 const ensureDb = () => {
@@ -102,6 +192,13 @@ const send = (res, status, body, headers = {}) => {
   res.end(body)
 }
 
+const sendJson = (res, status, data, headers = {}) => {
+  send(res, status, JSON.stringify(data), {
+    'Content-Type': 'application/json; charset=utf-8',
+    ...headers,
+  })
+}
+
 const buildReturnTo = (value) => {
   try {
     const url = new URL(value)
@@ -129,6 +226,11 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/login')) {
     const returnTo = buildReturnTo(url.searchParams.get('returnTo') || appOrigin)
     return send(res, 200, renderLoginPage({ returnTo }))
+  }
+
+  if (req.method === 'GET' && url.pathname === '/coffees') {
+    const db = readDb()
+    return sendJson(res, 200, db.coffees || [])
   }
 
   if (req.method === 'POST' && url.pathname === '/login') {

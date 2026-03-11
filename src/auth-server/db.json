@@ -135,6 +135,257 @@
     {
       "username": "user",
       "token": "21ae5f0b-29de-4d07-a298-e2a9182eb93d"
+    },
+    {
+      "username": "user",
+      "token": "eb4242b8-3528-48b7-8a59-5ba9ff7fc293"
+    },
+    {
+      "username": "user",
+      "token": "b4b48edb-81b8-490e-897a-12024378693d"
+    },
+    {
+      "username": "user",
+      "token": "d6b89df1-d948-40b4-98ce-68ad1e9d8fa7"
+    },
+    {
+      "username": "user",
+      "token": "c743a0d6-981f-418c-a3f0-039738fcdbe9"
+    },
+    {
+      "username": "user",
+      "token": "b00e4973-da89-4286-a551-adfdddcffabd"
+    },
+    {
+      "username": "user",
+      "token": "10eed159-b7cb-43ab-8696-3d2d7812fc0f"
+    },
+    {
+      "username": "user",
+      "token": "50352a66-8944-46a1-a602-0345318579ea"
+    },
+    {
+      "username": "user",
+      "token": "2bc9f756-7bc5-4cdd-b27f-eb8f58ea73c3"
+    },
+    {
+      "username": "user",
+      "token": "18708ad8-f97e-42e1-80f9-1e8112003479"
+    },
+    {
+      "username": "user",
+      "token": "90bd7ccc-dfd9-4e44-a4d9-e4a0b2217325"
+    },
+    {
+      "username": "user",
+      "token": "76408bc8-f334-43a7-8bca-3599768d660d"
+    },
+    {
+      "username": "user",
+      "token": "46ed319b-8031-472a-8f05-597305170a4a"
+    },
+    {
+      "username": "user",
+      "token": "008e648e-aad6-4309-8f91-86e692416f89"
+    },
+    {
+      "username": "user",
+      "token": "c341c18a-ba24-484b-8dc1-50bf98b05d32"
+    },
+    {
+      "username": "user",
+      "token": "7ae59dcf-e31f-43ad-a297-927004ae0054"
+    },
+    {
+      "username": "user",
+      "token": "aa3d76cd-05a5-4de2-9669-19943fe0a44a"
+    },
+    {
+      "username": "user",
+      "token": "e14d819f-528c-4dee-b9f7-add55c1438aa"
+    },
+    {
+      "username": "user",
+      "token": "a5f0ca0d-c7ae-4675-a722-2eb3b19f1c9d"
+    },
+    {
+      "username": "user",
+      "token": "1418870c-be6b-45bc-90fe-1457ba48bb0b"
+    },
+    {
+      "username": "user",
+      "token": "bace3c2e-0f64-4948-81dd-ed7f44ef5006"
+    }
+  ],
+  "coffees": [
+    {
+      "name": "Espresso",
+      "price": 10,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        }
+      ]
+    },
+    {
+      "name": "Espresso Macchiato",
+      "price": 12,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        },
+        {
+          "name": "milk foam",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "name": "Cappuccino",
+      "price": 19,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        },
+        {
+          "name": "steamed milk",
+          "quantity": 20
+        },
+        {
+          "name": "milk foam",
+          "quantity": 50
+        }
+      ]
+    },
+    {
+      "name": "Mocha",
+      "price": 8,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        },
+        {
+          "name": "chocolate syrup",
+          "quantity": 20
+        },
+        {
+          "name": "steamed milk",
+          "quantity": 25
+        },
+        {
+          "name": "whipped cream",
+          "quantity": 25
+        }
+      ]
+    },
+    {
+      "name": "Flat White",
+      "price": 18,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        },
+        {
+          "name": "steamed milk",
+          "quantity": 50
+        }
+      ]
+    },
+    {
+      "name": "Americano",
+      "price": 7,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        },
+        {
+          "name": "water",
+          "quantity": 70
+        }
+      ]
+    },
+    {
+      "name": "Cafe Latte",
+      "price": 16,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        },
+        {
+          "name": "steamed milk",
+          "quantity": 50
+        },
+        {
+          "name": "milk foam",
+          "quantity": 20
+        }
+      ]
+    },
+    {
+      "name": "Espresso Con Panna",
+      "price": 14,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        },
+        {
+          "name": "whipped cream",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "name": "Cafe Breve",
+      "price": 15,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 25
+        },
+        {
+          "name": "steamed milk",
+          "quantity": 30
+        },
+        {
+          "name": "steamed cream",
+          "quantity": 30
+        },
+        {
+          "name": "milk foam",
+          "quantity": 15
+        }
+      ]
+    },
+    {
+      "name": "(Discounted) Mocha",
+      "price": 4,
+      "discounted": true,
+      "recipe": [
+        {
+          "name": "espresso",
+          "quantity": 30
+        },
+        {
+          "name": "chocolate syrup",
+          "quantity": 20
+        },
+        {
+          "name": "steamed milk",
+          "quantity": 25
+        },
+        {
+          "name": "whipped cream",
+          "quantity": 25
+        }
+      ]
     }
   ]
 }
