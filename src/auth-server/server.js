@@ -230,7 +230,24 @@ const server = http.createServer((req, res) => {
 
   if (req.method === 'GET' && url.pathname === '/coffees') {
     const db = readDb()
-    return sendJson(res, 200, db.coffees || [])
+    const waitTime = Number(url.searchParams.get('wait') || '0')
+    
+    if (waitTime > 0) {
+      setTimeout(() => {
+        sendJson(res, 200, db.coffees || [], {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        })
+      }, waitTime)
+    } else {
+      return sendJson(res, 200, db.coffees || [], {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      })
+    }
+    return
   }
 
   if (req.method === 'POST' && url.pathname === '/login') {

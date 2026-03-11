@@ -9,6 +9,12 @@
     <ul v-if="isLoading">
       <CoffeeCardSkeleton v-for="n in 9" :key="n" />
     </ul>
+    <ul v-else-if="isEmptyList">
+      <div class="empty-message">
+        <h3>No coffees available</h3>
+        <p>Sorry, there are no coffees available at the moment. Please check back later.</p>
+      </div>
+    </ul>
     <ul v-else>
       <li
         v-for="coffee in list"
@@ -66,6 +72,9 @@ export default defineComponent({
     }),
     is500Error() {
       return this.error && this.error.status === 500;
+    },
+    isEmptyList() {
+      return !this.isLoading && !this.error && Array.isArray(this.list) && this.list.length === 0;
     },
   },
   data() {
@@ -256,5 +265,23 @@ li:hover h4 {
 li h4 {
   /* text-align: center; */
   margin: 10px 0;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 60px 20px;
+  grid-column: 1 / -1;
+}
+
+.empty-message h3 {
+  color: #666;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.empty-message p {
+  color: #888;
+  font-size: 1rem;
+  margin: 0;
 }
 </style>

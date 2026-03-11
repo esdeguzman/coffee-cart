@@ -4,7 +4,7 @@ import coffee from '../../api/coffee.api'
 const state = () => ({
   waitTime: 0,
   list: [],
-  error: null as string | null,
+  error: null as any,
   isLoading: false
 })
 
@@ -36,7 +36,7 @@ const mutations = {
   setLoading(state: any, isLoading: boolean) {
     state.isLoading = isLoading;
   },
-  setError(state: any, error: string | null) {
+  setError(state: any, error: any) {
     state.error = error;
   },
   getListSuccess(state: any, coffees: any) {
@@ -45,7 +45,7 @@ const mutations = {
   },
   getListFailure(state: any, err: any) {
     state.list = [];
-    state.error = err?.message || 'Failed to load coffee data';
+    state.error = err;
   },
   translateCoffee(state: any, coffee: any) {
     const selected = state.list.find((x: any) => x.name === coffee) || {}

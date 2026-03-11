@@ -10,7 +10,7 @@
         </div>
       </li>
     </ul>
-    <button data-test="checkout" class="pay" type="button" aria-label="Proceed to checkout" @mouseover="togglePreview()" @click="pay()">Total: {{ currency(total) }}</button>
+    <button data-test="checkout" class="pay" type="button" aria-label="Proceed to checkout" @mouseover="togglePreview()" @click="pay()" :disabled="shouldDisableCheckout">Total: {{ currency(total) }}</button>
   </div>
   <PaymentDetails :isShow="isShow" @close="closed()" />
 </template>
@@ -30,7 +30,10 @@ export default defineComponent({
       total: 'cart/cartTotal',
       cartList: "cart/cartList",
       cartCount: "cart/cartCount"
-    })
+    }),
+    shouldDisableCheckout() {
+      return this.cartCount === 0;
+    }
   },
   data() {
     return {
@@ -67,6 +70,18 @@ button.pay {
 button.pay:hover {
   border-color: goldenrod;
   color: goldenrod;
+}
+
+button.pay:disabled {
+  border-color: #ccc;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+button.pay:disabled:hover {
+  border-color: #ccc;
+  color: #999;
 }
 
 .cart-preview.show {
