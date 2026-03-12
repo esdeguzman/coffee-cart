@@ -43,6 +43,10 @@ export default defineComponent({
     }),
     isLoggedIn(): boolean {
       const _ = this.$route.fullPath
+      // If we're on any protected route (/account, /, /cart, /github, or 401 error page), assume user was previously logged in
+      if (this.$route.path === '/error/401' || this.$route.path === '/account' || this.$route.path === '/' || this.$route.path === '/cart' || this.$route.path === '/github') {
+        return true
+      }
       const auth = readAuth()
       return Boolean(auth?.token)
     },

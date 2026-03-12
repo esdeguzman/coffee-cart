@@ -1,5 +1,7 @@
 <template>
-  <div class="list" v-if="cartList">
+  <Coffee401 v-if="is401Error" />
+  <div v-else-if="!isLoading" class="list">
+    <div v-if="error" class="error-message">{{ error }}</div>
     <p v-if="!cartList.length">No coffee, go add some.</p>
     <div v-if="cartList.length">
       <Pay :isDisablePreview="isHidePayPreview" />
@@ -27,6 +29,9 @@
       </ul>
     </div>
   </div>
+  <div v-else class="loading">
+    Loading cart...
+  </div>
 </template>
 
 <script lang="ts">
@@ -34,40 +39,91 @@ import { defineComponent } from 'vue';
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { currency } from '../../utils';
 import Pay from "../parts/Pay.vue";
+import Coffee401 from '../parts/Coffee401.vue';
+import cartApi from '../../api/cart.api';
 
 export default defineComponent({
   name: 'CartPage',
-  components: { Pay },
+  components: { Pay, Coffee401 },
   data() {
     return {
-      isHidePayPreview: true
+      isHidePayPreview: true,
+      isLoading: false,
+      error: null as string | null,
+      is401Error: false
     }
   },
   computed: {
-    // Option 2
     ...mapGetters({
       cartList: "cart/cartList"
     }),
   },
-  // data() {
-  //   return {
-  //     cartList: null
-  //   }
-  // },
   methods: {
     currency,
     ...mapActions("cart", []),
-    ...mapMutations("cart", ["addOneCartItem", "removeOneCartItem", "removeCartItem"])
+    ...mapMutations("cart", ["addOneCartItem", "removeOneCartItem", "removeCartItem"]),
+    async loadCart() {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const response = await cartApi.getCart();
+        // Update local cart with server data
+        if (response.items && response.items.length > 0) {
+          this.$store.commit('cart/setCartList', { items: response.items });
+        }
+      } catch (error: any) {
+        if (error.status === 401) {
+          this.is401Error = true;
+        } else if (error.status === 500) {
+          this.$router.push('/error/500');
+        } else {
+          this.error = 'Failed to load cart';
+        }
+        console.error('Failed to load cart:', error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async saveCart() {
+      try {
+        const cartItems = this.$store.getters['cart/cartList'].map((item: any) => ({
+          name: item.name,
+          quantity: item.quantity
+        }));
+        await cartApi.saveCart(cartItems);
+      } catch (error) {
+        console.error('Failed to save cart:', error);
+      }
+    }
   },
-  created() {
-    // setTimeout(() => {
-    //   this.cartList = this.$store.getters['cart/cartList'];
-    // }, 3000) as any;
+  async created() {
+    await this.loadCart();
+  },
+  watch: {
+    cartList: {
+      handler() {
+        this.saveCart();
+      },
+      deep: true
+    }
   }
 })
 </script>
 
 <style scoped>
+.error-message {
+  color: #b00020;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: large;
+}
+
+.loading {
+  text-align: center;
+  font-size: xx-large;
+  padding: 50px;
+}
+
 p {
   text-align: center;
   font-size: xx-large;

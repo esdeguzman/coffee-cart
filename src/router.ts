@@ -6,6 +6,7 @@ import GitHubPage from './components/pages/GitHubPage.vue'
 import AccountPage from './components/pages/AccountPage.vue'
 import Coffee404 from './components/parts/Coffee404.vue'
 import Coffee500 from './components/parts/Coffee500.vue'
+import Coffee401 from './components/parts/Coffee401.vue'
 const authStorageKey = 'coffee-cart-auth'
 const authOrigin = 'http://localhost:4170'
 
@@ -85,6 +86,10 @@ const router = createRouter({
       component: Coffee404
     },
     {
+      path: '/error/401',
+      component: Coffee401
+    },
+    {
       path: '/:pathMatch(.*)*',
       component: Coffee404
     },
@@ -102,13 +107,18 @@ router.beforeEach((to) => {
     return { path: to.path, query: cleanedQuery, hash: to.hash }
   }
 
-  if (to.meta.requiresAuth && !isLoggedIn()) {
-    const returnTo = `${window.location.origin}${to.fullPath}`
+  // Check if user is accessing root route and not authenticated
+  if (to.path === '/' && !isLoggedIn()) {
+    const authOrigin = 'http://localhost:4170'
+    const returnTo = `${window.location.origin}${window.location.pathname}`
     const loginUrl = new URL('/login', authOrigin)
     loginUrl.searchParams.set('returnTo', returnTo)
     window.location.assign(loginUrl.toString())
     return false
   }
+
+  // Note: Client-side auth checks removed for other routes - now handled by server-side API validation
+  // Protected pages will load but API calls will fail with 401 and redirect to login
 
   return true
 })

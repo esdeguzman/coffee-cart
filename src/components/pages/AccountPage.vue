@@ -1,5 +1,6 @@
 <template>
-  <div class="account">
+  <Coffee401 v-if="is401Error" />
+  <div v-else class="account">
     <div class="header">
       <h1>Account Details</h1>
       <button @click="logout" class="logout-button">Logout</button>
@@ -27,6 +28,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import Coffee401 from '../parts/Coffee401.vue';
 
 const authStorageKey = 'coffee-cart-auth';
 
@@ -34,22 +36,43 @@ const authOrigin = 'http://localhost:4170';
 
 export default defineComponent({
   name: 'AccountPage',
+  components: { Coffee401 },
   data() {
     return {
       user: { username: '', name: '', email: '' },
       token: '',
-      isLoading: false
+      isLoading: false,
+      is401Error: false
     };
   },
   created() {
     this.loadUser();
   },
   methods: {
-    loadUser() {
+    async loadUser() {
       const auth = JSON.parse(localStorage.getItem(authStorageKey) || '{}');
-      if (auth.user) {
-        this.user = { ...auth.user };
-        this.token = auth.token;
+      if (auth.user && auth.token) {
+        // Validate token by making a test API call to cart endpoint
+        try {
+          const response = await fetch(`${authOrigin}/api/cart`, {
+            headers: {
+              'Authorization': `Bearer ${auth.token}`
+            }
+          });
+          
+          if (response.status === 401) {
+            this.is401Error = true;
+            return;
+          }
+          
+          this.user = { ...auth.user };
+          this.token = auth.token;
+        } catch (error) {
+          console.error('Failed to validate token:', error);
+          this.is401Error = true;
+        }
+      } else {
+        this.is401Error = true;
       }
     },
     async save() {
@@ -67,6 +90,13 @@ export default defineComponent({
           }).toString(),
         });
 
+        if (response.status === 401) {
+          // Token expired or invalid, show 401 error page
+          const error = new Error('Unauthorized');
+          (error as any).status = 401;
+          throw error;
+        }
+
         if (!response.ok) {
           throw new Error('Failed to save account details');
         }
@@ -77,9 +107,13 @@ export default defineComponent({
         localStorage.setItem(authStorageKey, JSON.stringify(auth));
 
         (this as any).$snackbar.showMessage({ content: 'Account details saved!', color: 'success' });
-      } catch (error) {
-        console.error(error);
-        (this as any).$snackbar.showMessage({ content: 'Failed to save account details. Please try again.', color: 'error' });
+      } catch (error: any) {
+        if (error.status === 401) {
+          this.is401Error = true;
+        } else {
+          console.error(error);
+          (this as any).$snackbar.showMessage({ content: 'Failed to save account details. Please try again.', color: 'error' });
+        }
       } finally {
         this.isLoading = false;
       }

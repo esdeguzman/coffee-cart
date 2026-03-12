@@ -232,6 +232,19 @@ const server = http.createServer((req, res) => {
     const db = readDb()
     const waitTime = Number(url.searchParams.get('wait') || '0')
     
+    // Check for test bypass parameter
+    const bypassAuth = url.searchParams.get('bypassAuth') === 'true'
+    
+    // Require authentication unless bypass is used
+    if (!bypassAuth) {
+      const token = req.headers['authorization']?.split(' ')?.[1]
+      const storedToken = db.tokens.find((t) => t.token === token)
+      
+      if (!storedToken) {
+        return send(res, 401, 'Unauthorized')
+      }
+    }
+    
     if (waitTime > 0) {
       setTimeout(() => {
         sendJson(res, 200, db.coffees || [], {
@@ -327,6 +340,46 @@ const server = http.createServer((req, res) => {
           'Content-Type': 'application/json',
         })
       }, 10000)
+    })
+    return
+  }
+
+  // Cart endpoints - require authentication
+  if (req.method === 'GET' && url.pathname === '/api/cart') {
+    const token = req.headers['authorization']?.split(' ')?.[1]
+    const db = readDb()
+    const storedToken = db.tokens.find((t) => t.token === token)
+
+    if (!storedToken) {
+      return send(res, 401, 'Unauthorized')
+    }
+
+    // For now, return empty cart - in real app this would be user-specific
+    return sendJson(res, 200, { items: [] })
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/cart') {
+    const token = req.headers['authorization']?.split(' ')?.[1]
+    const db = readDb()
+    const storedToken = db.tokens.find((t) => t.token === token)
+
+    if (!storedToken) {
+      return send(res, 401, 'Unauthorized')
+    }
+
+    let body = ''
+    req.on('data', (chunk) => {
+      body += chunk.toString()
+      if (body.length > 1e6) req.socket.destroy()
+    })
+    req.on('end', () => {
+      try {
+        const data = JSON.parse(body)
+        // In real app, save to user's cart in database
+        return sendJson(res, 200, { success: true, items: data.items || [] })
+      } catch (e) {
+        return send(res, 400, 'Invalid JSON')
+      }
     })
     return
   }

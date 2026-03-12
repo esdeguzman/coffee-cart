@@ -1,6 +1,7 @@
 <template>
-    <Coffee404 v-if="error && !isLoading && !is500Error" />
+    <Coffee404 v-if="error && !isLoading && !is500Error && !is401Error" />
     <Coffee500 v-else-if="is500Error" :error="true" />
+    <Coffee401 v-else-if="is401Error" />
     <div v-else>
       <Banner v-if="renderAd" />
   <!-- <iframe ref="iframe" v-if="showAd" src="/ad" height="1" width="1" scrolling="no" frameborder="0"></iframe> -->
@@ -57,10 +58,11 @@ import Promotion from '../parts/Promotion.vue';
 import CoffeeCardSkeleton from '../parts/CoffeeCardSkeleton.vue';
 import Coffee404 from '../parts/Coffee404.vue';
 import Coffee500 from '../parts/Coffee500.vue';
+import Coffee401 from '../parts/Coffee401.vue';
 
 export default defineComponent({
   name: "ListPage",
-  components: { Cup, Pay, Ad, Banner, Promotion, CoffeeCardSkeleton, Coffee404, Coffee500 },
+  components: { Cup, Pay, Ad, Banner, Promotion, CoffeeCardSkeleton, Coffee404, Coffee500, Coffee401 },
   computed: {
     ...mapState({
       list: (state: any) => state.coffees.list.filter((x:any) => !x.discounted),
@@ -72,6 +74,9 @@ export default defineComponent({
     }),
     is500Error() {
       return this.error && this.error.status === 500;
+    },
+    is401Error() {
+      return this.error && this.error.status === 401;
     },
     isEmptyList() {
       return !this.isLoading && !this.error && Array.isArray(this.list) && this.list.length === 0;
