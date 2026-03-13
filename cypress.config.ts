@@ -5,6 +5,9 @@ export default defineConfig({
   e2e: {
     video: true,
     reporter: "mochawesome",
+    reporterOptions: {
+      reportDir: "cypress/reports"
+    },
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
