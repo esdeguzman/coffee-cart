@@ -1,19 +1,17 @@
-name: End-to-end tests
-on: 
-  push:
-    branches:
-      - main
+name: Cypress Tests
+
+on: push
+
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
       - name: Cypress run
-        # This single action handles npm install and cypress run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
-          # Starts the local coffee cart server before running tests
-          start: npm run dev:all
-          # Checks this URL to ensure server is ready before tests start
-          wait-on: 'http://localhost:5173'
+          build: npm run build
+          start: npm start
