@@ -1,0 +1,19 @@
+name: End-to-end tests
+on: 
+  push:
+    branches:
+      - main
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cypress run
+        # This single action handles npm install and cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          # Starts the local coffee cart server before running tests
+          start: npm run dev:all
+          # Checks this URL to ensure server is ready before tests start
+          wait-on: 'http://localhost:5173'
