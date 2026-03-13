@@ -15,3 +15,16 @@ jobs:
         with:
           build: npm run build
           start: npm run dev:all
+      - name: Cypress Test Artifacts
+        uses: actions/upload-artifact@v4
+        if: always() # Instruct a step to always run, regardless of whether or not the steps before it pass. Please see https://github.com/cypress-io/github-action/issues/33
+        with:
+          name: cypress-videos
+          path: cypress/videos
+          retention-days: 1 # Optional: set the retention days for the artifact
+          name: cypress-screenshots
+          path: cypress/screenshots
+          retention-days: 1 # Optional: set the retention days for the artifact
+          name: cypress-mochawesome-reports
+          path: cypress/reports
+          retention-days: 1 # Optional: set the retention days for the artifact

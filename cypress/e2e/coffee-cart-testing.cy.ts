@@ -10,5 +10,6 @@ describe('coffee cart testing', () => {
     cy.get('div.pay-container').as('payContainer').should('exist')
     cy.get('@payContainer').find('button').should('have.text', 'Total: $0.00')
     cy.get('@payContainer').find('button').should('have.be', 'disabled')
+    cy.screenshot({capture: 'viewport'})
   })
 })
