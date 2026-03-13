@@ -15,6 +15,12 @@ jobs:
         with:
           build: npm run build
           start: npm run dev:all
+      - name: Create artifact directories
+        if: always()
+        run: |
+          mkdir -p cypress/videos
+          mkdir -p cypress/screenshots
+          mkdir -p cypress/reports
       - name: Cypress Test - Video Artifacts
         uses: actions/upload-artifact@v4
         if: always() # Instruct a step to always run, regardless of whether or not the steps before it pass. Please see https://github.com/cypress-io/github-action/issues/33
