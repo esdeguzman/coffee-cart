@@ -4,3 +4,7 @@ dist
 dist-ssr
 *.local
 *.windsurf
+*mochawesome*
+*videos
+*reports
+*screenshots
