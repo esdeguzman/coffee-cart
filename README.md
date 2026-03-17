@@ -27,4 +27,4 @@ https://coffee-cart.app/. This demo created with Vue 3 + Typescript + Vite.
 
 1. Download the project.
 2. Run `npm install`.
-3. Run `npm run dev` to start a local server.
+3. Run `npm run dev:all` to start a local server.
